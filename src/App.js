@@ -1,7 +1,47 @@
 // import logo from './logo.svg';
 import './App.css';
+import React, { useReducer } from 'react';
+
+const ACTIONS ={
+  ADD_DIGITS: 'add-digit',
+  CHOOSE_OPERATION: 'choose-operation',
+  CLEAR: 'clear',
+  DELETE_DIGIT: 'delete-digit',
+  EVALUATE: 'evaluate'
+}
+
+function reducer(state, { type, payload }){
+  switch (type){
+    case ACTIONS.ADD_DIGITS:
+      return {
+        ...state,
+        currentOperand: state.waitingForOperand ? payload : state.currentOperand + payload,
+        waitingForOperand: false,
+      };
+    case ACTIONS.DELETE_DIGIT:
+      return { ...state, currentOperand: state.currentOperand.slice(0, -1) };
+    case ACTIONS.CLEAR:
+      return { ...state, currentOperand: '', waitingForOperand: false, selectedOperation: null };
+    case ACTIONS.CHOOSE_OPERATION:
+      return { ...state, waitingForOperand: true, selectedOperation: payload };
+
+      default:
+        return state;
+  }
+}
 
 function App() {
+  const [{currentOperand}, dispatch] = useReducer(reducer, {currentOperand: ''})
+  const handleButtonClick = (value) => {
+    dispatch({ type: ACTIONS.ADD_DIGITS, payload: value });
+  };
+  const handleDeleteButtonClick = () => {
+    dispatch({ type: ACTIONS.DELETE_DIGIT });
+  };
+  const handleChooseOperation = (operation) => {
+    dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: operation });
+  };
+  
   return (
     <div className="App">
       <div className='card'>
@@ -31,40 +71,40 @@ function App() {
         </div>
 
         <div className = "middle">
-          <h2>399,981.00</h2>
+          <h2 className='operand'>{currentOperand}</h2>
         </div>
 
         <div className = "bottom">
           {/* <div> */}
-            <button className='btn'>7</button>
-            <button className='btn'>8</button>
-            <button className='btn'>9</button>
-            <button className='btn delete'>DEL</button>
+            <button className='btn' onClick={() => handleButtonClick(7)}>7</button>
+            <button className='btn' onClick={() => handleButtonClick(8)}>8</button>
+            <button className='btn' onClick={() => handleButtonClick(9)}>9</button>
+            <button className='btn delete' onClick={handleDeleteButtonClick}>DEL</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn'>4</button>
-            <button className='btn'>5</button>
-            <button className='btn'>6</button>
-            <button className='btn'>+</button>
+            <button className='btn' onClick={() => handleButtonClick(4)}>4</button>
+            <button className='btn' onClick={() => handleButtonClick(5)}>5</button>
+            <button className='btn' onClick={() => handleButtonClick(6)}>6</button>
+            <button className='btn' onClick={() => handleChooseOperation('+')}>+</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn'>1</button>
-            <button className='btn'>2</button>
-            <button className='btn'>3</button>
+            <button className='btn' onClick={() => handleButtonClick(1)}>1</button>
+            <button className='btn'onClick={() => handleButtonClick(2)}>2</button>
+            <button className='btn' onClick={() => handleButtonClick(3)}>3</button>
             <button className='btn'>-</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn'>.</button>
-            <button className='btn'>0</button>
+            <button className='btn' onClick={() => handleButtonClick('.')}>.</button>
+            <button className='btn' onClick={() => handleButtonClick(0)}>0</button>
             <button className='btn'>÷</button>
             <button className='btn'>x</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn reset'>RESET</button>
+            <button className='btn reset' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>RESET</button>
             <button className='btn evaluate'>=</button>
             
           {/* </div> */}

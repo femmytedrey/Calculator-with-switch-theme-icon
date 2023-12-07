@@ -161,6 +161,10 @@
   background: #eae3dc;
 }
 
+.btn:hover{
+  background: #cfc9c2;
+}
+
 .reset{
   grid-column: span 2;
 }

@@ -1,8 +1,9 @@
 // import logo from './logo.svg';
 import './App.css';
 import React, { useReducer } from 'react';
+import DigitButton from './DigitButton';
 
-const ACTIONS ={
+export const ACTIONS ={
   ADD_DIGITS: 'add-digit',
   CHOOSE_OPERATION: 'choose-operation',
   CLEAR: 'clear',
@@ -10,37 +11,19 @@ const ACTIONS ={
   EVALUATE: 'evaluate'
 }
 
-function reducer(state, { type, payload }){
-  switch (type){
+function reducer (state, { type, payload }) {
+  switch(type){
     case ACTIONS.ADD_DIGITS:
       return {
         ...state,
-        currentOperand: state.waitingForOperand ? payload : state.currentOperand + payload,
-        waitingForOperand: false,
-      };
-    case ACTIONS.DELETE_DIGIT:
-      return { ...state, currentOperand: state.currentOperand.slice(0, -1) };
-    case ACTIONS.CLEAR:
-      return { ...state, currentOperand: '', waitingForOperand: false, selectedOperation: null };
-    case ACTIONS.CHOOSE_OPERATION:
-      return { ...state, waitingForOperand: true, selectedOperation: payload };
-
-      default:
-        return state;
+        currentOperand: `${state.currentOperand || ""}${payload.digit}`
+      }
   }
 }
 
 function App() {
-  const [{currentOperand}, dispatch] = useReducer(reducer, {currentOperand: ''})
-  const handleButtonClick = (value) => {
-    dispatch({ type: ACTIONS.ADD_DIGITS, payload: value });
-  };
-  const handleDeleteButtonClick = () => {
-    dispatch({ type: ACTIONS.DELETE_DIGIT });
-  };
-  const handleChooseOperation = (operation) => {
-    dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: operation });
-  };
+  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
+
   
   return (
     <div className="App">
@@ -71,40 +54,41 @@ function App() {
         </div>
 
         <div className = "middle">
+          <p className='previous-operand'>{previousOperand} {operation}</p>
           <h2 className='operand'>{currentOperand}</h2>
         </div>
 
         <div className = "bottom">
           {/* <div> */}
-            <button className='btn' onClick={() => handleButtonClick(7)}>7</button>
-            <button className='btn' onClick={() => handleButtonClick(8)}>8</button>
-            <button className='btn' onClick={() => handleButtonClick(9)}>9</button>
-            <button className='btn delete' onClick={handleDeleteButtonClick}>DEL</button>
+            <DigitButton digit= "7" dispatch={dispatch} />
+            <DigitButton digit= "8" dispatch={dispatch} />
+            <DigitButton digit= "9" dispatch={dispatch} />
+            <button className='btn delete'>DEL</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn' onClick={() => handleButtonClick(4)}>4</button>
-            <button className='btn' onClick={() => handleButtonClick(5)}>5</button>
-            <button className='btn' onClick={() => handleButtonClick(6)}>6</button>
-            <button className='btn' onClick={() => handleChooseOperation('+')}>+</button>
+            <DigitButton digit= "4" dispatch={dispatch} />
+            <DigitButton digit= "5" dispatch={dispatch} />
+            <DigitButton digit= "6" dispatch={dispatch} />
+            <button className='btn'>+</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn' onClick={() => handleButtonClick(1)}>1</button>
-            <button className='btn'onClick={() => handleButtonClick(2)}>2</button>
-            <button className='btn' onClick={() => handleButtonClick(3)}>3</button>
+            <DigitButton digit= "1" dispatch={dispatch} />
+            <DigitButton digit= "2" dispatch={dispatch} />
+            <DigitButton digit= "3" dispatch={dispatch} />
             <button className='btn'>-</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn' onClick={() => handleButtonClick('.')}>.</button>
-            <button className='btn' onClick={() => handleButtonClick(0)}>0</button>
+          <DigitButton digit= "." dispatch={dispatch} />
+            <DigitButton digit= "0" dispatch={dispatch} />
             <button className='btn'>÷</button>
             <button className='btn'>x</button>
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn reset' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>RESET</button>
+            <button className='btn reset'>RESET</button>
             <button className='btn evaluate'>=</button>
             
           {/* </div> */}

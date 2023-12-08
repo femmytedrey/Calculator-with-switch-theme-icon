@@ -2,6 +2,7 @@
 import './App.css';
 import React, { useReducer } from 'react';
 import DigitButton from './DigitButton';
+import OperationButton from './OperationButton';
 
 export const ACTIONS ={
   ADD_DIGITS: 'add-digit',
@@ -14,11 +15,128 @@ export const ACTIONS ={
 function reducer (state, { type, payload }) {
   switch(type){
     case ACTIONS.ADD_DIGITS:
-      return {
+    //   if (payload.digit === '0' && (state.currentOperand === null || state.currentOperand === undefined)) {
+    //     return {
+    //       ...state,
+    //       currentOperand: '0'
+    //     };
+    //   } else {
+    //     return {
+    //       ...state,
+    //       currentOperand: payload.digit
+    //     };
+    //   }
+      if(state.overwrite){
+        return{
+          ...state,
+          currentOperand: payload.digit,
+          overwrite: false
+        }
+      }
+      if(state.currentOperand === null || state.currentOperand === undefined){
+        if(payload.digit === '.'){
+          return{
+            ...state,
+            currentOperand: "0."
+          }
+        }
+      }
+      if(payload.digit === '0' && state.currentOperand === '0') return state
+      if(payload.digit === '.' && state.currentOperand.includes('.')) return state
+
+      // if(payload.digit === '.'){
+      //   return {
+      //     ...state,
+      //     currentOperand: state.currentOperand === '' ? '0.' : `${state.currentOperand}${payload.digit}`,
+      //   };
+      // }
+        
+      return {  
         ...state,
         currentOperand: `${state.currentOperand || ""}${payload.digit}`
       }
+
+    case ACTIONS.CHOOSE_OPERATION:
+      if(state.currentOperand == null && state.previousOperand == null){
+        return state
+      }
+      if(state.currentOperand == null){
+        return{
+          ...state,
+          operation: payload.operation
+        }
+      }
+      if(state.previousOperand == null){
+        return{
+          ...state,
+          operation: payload.operation,
+          previousOperand: state.currentOperand,
+          currentOperand: null
+        }
+      }
+      return{
+        ...state,
+        previousOperand: evaluate(state),
+        operation: payload.operation,
+        currentOperand: null
+      }
+
+    case ACTIONS.EVALUATE:
+      if(state.currentOperand == null || state.previousOperand == null || state.operation == null){
+        return state
+      }
+      
+      return{
+        ...state,
+        overwrite: true,
+        previousOperand: null,
+        currentOperand: evaluate(state),
+        operation: null
+      }
+
+      case ACTIONS.DELETE_DIGIT:
+        if(state.overwrite){
+          return{
+            ...state,
+            currentOperand: null,
+            overwrite: false
+          }
+        }
+        if(state.currentOperand == null){
+          return state
+        }
+        if(state.currentOperand.length === 1){
+          return{ ...state, currentOperand: null }
+        }
+        return { ...state, currentOperand: state.currentOperand.slice(0, -1) };
+        
+      
+    case ACTIONS.CLEAR:
+      return {}
   }
+}
+
+function evaluate({ currentOperand, previousOperand, operation }){
+  const prev = parseFloat(previousOperand)
+  const current = parseFloat(currentOperand)
+  if(isNaN(prev) || isNaN(current)) return ""
+  let computation = ""
+  switch (operation) {
+    case '+':
+      computation = prev + current
+      break
+    case '-':
+      computation = prev - current
+      break
+    case '*':
+      computation = prev * current
+      break
+    case '÷':
+      computation = prev / current
+      break
+  }
+
+  return computation.toString()
 }
 
 function App() {
@@ -30,7 +148,7 @@ function App() {
       <div className='card'>
         <div className = "top">
           <div className='left'>
-            <p>Calc</p>
+            <p className='calc'>calc</p>
           </div>
 
           <div className='right'>
@@ -44,9 +162,15 @@ function App() {
               {/* </div> */}
               {/* <div className='rightRightBottom'> */}
                 <div className='slider'>
-                  <div className='selction1'></div>
-                  <div className='selction2'></div>
-                  <div className='selction3'></div>
+                  <div className='selection-container'>
+                    <div className='selction1'></div>
+                  </div>
+                  <div className='selection-container'>
+                    <div className='selction2'></div>
+                  </div>
+                  <div className='selection-container'>
+                    <div className='selction3'></div>
+                  </div>
                 </div>
               {/* </div> */}
             </div>
@@ -54,8 +178,12 @@ function App() {
         </div>
 
         <div className = "middle">
-          <p className='previous-operand'>{previousOperand} {operation}</p>
-          <h2 className='operand'>{currentOperand}</h2>
+          <div className='previousOperandContainer'>
+            <p className='previous-operand'>{previousOperand} {operation}</p>
+          </div>
+          <div className='currentOperandContainer'>
+            <h2 className='operand'>{currentOperand}</h2>
+          </div>
         </div>
 
         <div className = "bottom">
@@ -63,33 +191,33 @@ function App() {
             <DigitButton digit= "7" dispatch={dispatch} />
             <DigitButton digit= "8" dispatch={dispatch} />
             <DigitButton digit= "9" dispatch={dispatch} />
-            <button className='btn delete'>DEL</button>
+            <button className='btn delete' onClick={() => dispatch({type:ACTIONS.DELETE_DIGIT})}>DEL</button>
           {/* </div> */}
 
           {/* <div> */}
             <DigitButton digit= "4" dispatch={dispatch} />
             <DigitButton digit= "5" dispatch={dispatch} />
             <DigitButton digit= "6" dispatch={dispatch} />
-            <button className='btn'>+</button>
+            <OperationButton operation= "+" dispatch={dispatch} />
           {/* </div> */}
 
           {/* <div> */}
             <DigitButton digit= "1" dispatch={dispatch} />
             <DigitButton digit= "2" dispatch={dispatch} />
             <DigitButton digit= "3" dispatch={dispatch} />
-            <button className='btn'>-</button>
+            <OperationButton operation= "-" dispatch={dispatch} />
           {/* </div> */}
 
           {/* <div> */}
           <DigitButton digit= "." dispatch={dispatch} />
             <DigitButton digit= "0" dispatch={dispatch} />
-            <button className='btn'>÷</button>
-            <button className='btn'>x</button>
+            <OperationButton operation= "÷" dispatch={dispatch} />
+            <OperationButton operation= "*" dispatch={dispatch} />
           {/* </div> */}
 
           {/* <div> */}
-            <button className='btn reset'>RESET</button>
-            <button className='btn evaluate'>=</button>
+            <button className='btn reset' onClick={() => dispatch({ type: ACTIONS.CLEAR})}>RESET</button>
+            <button className='btn evaluate' onClick={() => dispatch({ type: ACTIONS.EVALUATE})}>=</button>
             
           {/* </div> */}
           

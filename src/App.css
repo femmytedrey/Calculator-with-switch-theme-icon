@@ -25,7 +25,7 @@
 .top{
   display: flex;
   width: 100%;
-  height: 10%;
+  height: 30px;
   background: green;
   align-items: center;
   
@@ -38,7 +38,6 @@
   display: flex;
   align-items: flex-end;
   padding-bottom: 6px;
-  
 }
 
 .right{
@@ -91,14 +90,23 @@
 }
 
 .slider{
-  height: 15px;
-  width: 73%;
+  height: 16px;
+  width: 80%;
   border-radius: 45px;
   background: hsl(223, 31%, 20%);
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  padding: 3px
+  padding-left: 3px;
+}
+
+.selection-container{
+  height: 100%;
+  width: 33%;
+  display: flex;
+  align-items: center;
+  border-radius: 45px;
+  padding-left: 0.1px;
 }
 
 .selction1{
@@ -106,6 +114,7 @@
   width: 11px;
   background: green;
   border-radius: 50%;
+  /* display: none; */
 }
 
 .selction2{
@@ -129,12 +138,21 @@
   width: 100%;
   background: hsl(224, 36%, 15%);
   border-radius: 9px;
-  padding: 0px 20px 0px 20px;
+  padding: 20px 20px 20px 20px;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-end;
   color: white;
   font-size: 22px;
+  flex-direction: column;
+}
+
+.previousOperandContainer{
+  /* height: 40%; */
+  font-weight: 400;
+  font-size: 18px;
+  opacity: 65%;
+  padding-bottom: 5px;
 }
 
 .bottom{
@@ -171,4 +189,10 @@
 
 .evaluate{
   grid-column: span 2;
+}
+
+.calc{
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
 }

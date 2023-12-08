@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import DigitButton from './DigitButton';
 import OperationButton from './OperationButton';
 
@@ -169,7 +169,7 @@ function App() {
 
             <div className='rightRight'>
               {/* <div className='rightRightTop'> */}
-                <p className='theme'>123</p>
+                <p className='theme'><span className='theme1'>1</span><span className='theme2'>2</span><span className='theme3'>3</span></p>
               {/* </div> */}
               {/* <div className='rightRightBottom'> */}
                 <div className='slider'>

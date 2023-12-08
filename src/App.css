@@ -6,16 +6,54 @@
   --bottom-background-color: hsl(223, 31%, 20%);
   --button-background-default: rgb(235, 227, 219);
   --button-border-bottom-default: 5px solid #b4a597;
-  /* --button-background-hover: rgba(235, 227, 219, 0.9); */
-  --reset-background-color: hsl(225, 21%, 49%);
-  --reset-border-color: hsl(224, 28%, 35%);
+  --button-text-color: rgb(68, 75, 90);
+  --secondary-btn-color: hsl(225, 21%, 49%);
+  --secondary-btn-border-color: 5px solid hsl(224, 28%, 35%);
+  --secondary-btn-text-color: hsl(0, 0%, 100%);
   --evaluate-background-color: rgb(209, 62, 46);
-  --evaluate-border-color: hsl(6, 70%, 34%);
+  --evaluate-border-color: 5px solid hsl(6, 70%, 34%);
+  --evaluate-button-text-color: hsl(0, 0%, 100%);
   --text-color: white;
   --text-opacity: 65%;
   --slider-background: hsl(223, 31%, 20%);
 }
 
+body.secondTheme{
+  --main-background-color: hsl(0, 0%, 90%);
+  --card-background-color: hsl(0, 0%, 93%);
+  --bottom-background-color: hsl(0, 5%, 81%);
+  --button-background-default: hsl(45, 7%, 89%);
+  --button-border-bottom-default: 5px solid hsl(35, 11%, 61%);
+  --button-text-color: rgb(68, 75, 90);
+  --secondary-btn-color: hsl(185, 42%, 37%);
+  --secondary-btn-border-color: 5px solid hsl(185, 58%, 25%);
+  --secondary-btn-text-color: hsl(0, 0%, 100%);
+  --evaluate-background-color: hsl(25, 98%, 40%);
+  --evaluate-border-color: 5px solid hsl(25, 99%, 27%);
+  --evaluate-button-text-color: hsl(0, 0%, 100%);
+  --text-color: hsl(60, 10%, 19%);
+  --text-opacity: 65%;
+  --slider-background: hsl(0, 5%, 81%);
+}
+
+body.thirdTheme{
+  --main-background-color: hsl(268, 75%, 9%);
+  --card-background-color: hsl(268, 71%, 12%);
+  --bottom-background-color: hsl(268, 71%, 12%);
+  --button-background-default: hsl(268, 47%, 21%);
+  --button-border-bottom-default: 5px solid hsl(290, 70%, 36%);
+  --button-text-color: hsl(52, 100%, 62%);
+  --secondary-btn-color: hsl(281, 89%, 26%);
+  --secondary-btn-border-color: 5px solid hsl(285, 91%, 52%);
+  --secondary-btn-text-color: hsl(0, 0%, 100%);
+  --evaluate-background-color: hsl(176, 100%, 44%);
+  --evaluate-border-color: 5px solid hsl(177, 92%, 70%);
+  --evaluate-button-text-color: hsl(198, 20%, 13%);
+  --text-color: hsl(52, 100%, 62%);
+  --text-opacity: 65%;
+  --slider-background: hsl(268, 71%, 12%);
+}
+  
 *{
   box-sizing: border-box;
   margin: 0px;
@@ -100,7 +138,7 @@
 .rightRightBottom{
   height: 50%;
   width: 100%;
-  background: blue;
+  /* background: blue; */
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -129,7 +167,7 @@
 .selction1{
   height: 11px;
   width: 11px;
-  background: rgb(209, 62, 46);
+  background: hsl(6, 63%, 50%);
   border-radius: 50%;
   /* display: none; */
 }
@@ -204,7 +242,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   background: var(--button-background-default);
-  color: rgb(68, 75, 90);
+  color: var(--button-text-color);
   user-select: none;
 }
 
@@ -214,26 +252,32 @@
 
 .reset{
   grid-column: span 2;
-  background: hsl(225, 21%, 49%);
-  color: var(--text-color);
-  border-bottom: 5px solid hsl(224, 28%, 35%);
+  background: var(--secondary-btn-color);
+  color: var(--secondary-btn-text-color);
+  border-bottom: var(--secondary-btn-border-color);
 }
 
 .evaluate{
-  color: var(--text-color);
+  color: var(--evaluate-button-text-color);
   grid-column: span 2;
-  background: rgb(209, 62, 46);
-  border-bottom: 5px solid hsl(6, 70%, 34%);
+  background: var(--evaluate-background-color);
+  border-bottom: var(--evaluate-border-color);
 }
 
 .calc{
-  font-size: 17px;
+  font-size: 30px;
   font-weight: 700;
   color: var(--text-color);
 }
 
 .delete{
-  background: hsl(225, 21%, 49%);
-  border-bottom: 5px solid hsl(224, 28%, 35%);
-  color: var(--text-color);
+  background: var(--secondary-btn-color);
+  border-bottom: var(--secondary-btn-border-color);
+  color: var(--secondary-btn-text-color);
+}
+
+.theme1,
+.theme2,
+.theme3{
+  cursor: pointer;
 }

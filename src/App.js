@@ -139,6 +139,17 @@ function evaluate({ currentOperand, previousOperand, operation }){
   return computation.toString()
 }
 
+const integer_formatter = new Intl.NumberFormat("en-us", {
+  maximumFractionDigits: 0,
+})
+
+function formatOperand(operand) {
+  if(operand ==  null) return
+  const [integer, decimal] = operand.split('.')
+  if(decimal == null) return integer_formatter.format(integer)
+  return `${integer_formatter.format(integer)}.${decimal}`
+}
+
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
 
@@ -179,10 +190,10 @@ function App() {
 
         <div className = "middle">
           <div className='previousOperandContainer'>
-            <p className='previous-operand'>{previousOperand} {operation}</p>
+            <p className='previous-operand'>{ formatOperand(previousOperand)} {operation}</p>
           </div>
           <div className='currentOperandContainer'>
-            <h2 className='operand'>{currentOperand}</h2>
+            <h2 className='operand'>{ formatOperand(currentOperand) }</h2>
           </div>
         </div>
 

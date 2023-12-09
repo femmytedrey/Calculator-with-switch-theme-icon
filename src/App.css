@@ -285,3 +285,13 @@ body.theme3{
 .hidden{
   display: none;
 }
+
+
+@media only screen and (max-width: 600px) {
+  body{
+    width: 100%;
+  }
+  .card{
+    width: 100%;
+  }
+}

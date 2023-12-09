@@ -113,6 +113,9 @@ function reducer (state, { type, payload }) {
       
     case ACTIONS.CLEAR:
       return {}
+
+    default:
+      return {}
   }
 }
 
@@ -124,16 +127,18 @@ function evaluate({ currentOperand, previousOperand, operation }){
   switch (operation) {
     case '+':
       computation = prev + current
-      break
+      break;
     case '-':
       computation = prev - current
-      break
+      break;
     case '*':
       computation = prev * current
-      break
+      break;
     case '÷':
       computation = prev / current
-      break
+      break;
+    default:
+      break;
   }
 
   return computation.toString()

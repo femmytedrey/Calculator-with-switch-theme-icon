@@ -152,6 +152,21 @@ function formatOperand(operand) {
 
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
+  const [currentTheme, setCurrentTheme] = useState('theme1')
+
+  const handleThemeClick = (themeNumber) => {
+    setCurrentTheme(`theme${themeNumber}`);
+    const selections = {
+      selection1: document.querySelector('.selction1'),
+      selection2: document.querySelector('.selction2'),
+      selection3: document.querySelector('.selction3'),
+    };
+
+    
+    console.log(`Theme ${themeNumber} clicked`)
+
+    
+  };
 
   
   return (
@@ -169,7 +184,11 @@ function App() {
 
             <div className='rightRight'>
               {/* <div className='rightRightTop'> */}
-                <p className='theme'><span className='theme1'>1</span><span className='theme2'>2</span><span className='theme3'>3</span></p>
+                <div className='theme'>
+                  <div className='theme1' onClick={() => handleThemeClick(1)}>1</div>
+                  <div className='theme2' onClick={() => handleThemeClick(2)}>2</div>
+                  <div className='theme3' onClick={() => handleThemeClick(3)}>3</div>
+                </div>
               {/* </div> */}
               {/* <div className='rightRightBottom'> */}
                 <div className='slider'>

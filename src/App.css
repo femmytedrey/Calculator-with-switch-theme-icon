@@ -133,6 +133,7 @@ body.thirdTheme{
   letter-spacing: 8px;
   transform: translateX(5%);
   color: var(--text-color);
+  display: flex;
 }
 
 .rightRightBottom{
@@ -169,7 +170,7 @@ body.thirdTheme{
   width: 11px;
   background: hsl(6, 63%, 50%);
   border-radius: 50%;
-  /* display: none; */
+  display: block;
 }
 
 .selction2{
@@ -280,4 +281,8 @@ body.thirdTheme{
 .theme2,
 .theme3{
   cursor: pointer;
+}
+
+.hidden{
+  display: none;
 }

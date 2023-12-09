@@ -18,7 +18,7 @@
   --slider-background: hsl(223, 31%, 20%);
 }
 
-body.secondTheme{
+body.theme2{
   --main-background-color: hsl(0, 0%, 90%);
   --card-background-color: hsl(0, 0%, 93%);
   --bottom-background-color: hsl(0, 5%, 81%);
@@ -36,7 +36,7 @@ body.secondTheme{
   --slider-background: hsl(0, 5%, 81%);
 }
 
-body.thirdTheme{
+body.theme3{
   --main-background-color: hsl(268, 75%, 9%);
   --card-background-color: hsl(268, 71%, 12%);
   --bottom-background-color: hsl(268, 71%, 12%);

@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import DigitButton from './DigitButton';
 import OperationButton from './OperationButton';
 
@@ -153,6 +153,10 @@ function formatOperand(operand) {
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
   const [currentTheme, setCurrentTheme] = useState('theme1')
+  
+  useEffect(() => {
+    document.body.className = currentTheme;
+  }, [currentTheme]);
 
   const handleThemeClick = (themeNumber) => {
     setCurrentTheme(`theme${themeNumber}`);
@@ -161,9 +165,20 @@ function App() {
       selection2: document.querySelector('.selction2'),
       selection3: document.querySelector('.selction3'),
     };
+    // const body = document.body;
+    // body.classList.remove('theme1', 'theme2', 'theme3')
+    // body.classList.add(`theme${themeNumber}`)
+
+    Object.values(selections).forEach((selection) => {
+      selection.style.display = 'none';
+    })
+
+    selections[`selection${themeNumber}`].style.display = 'block';
 
     
+
     console.log(`Theme ${themeNumber} clicked`)
+
 
     
   };
